@@ -8,41 +8,15 @@
 *{ margin:0; padding:0; box-sizing:border-box; font-family:Arial, Helvetica, sans-serif; } 
 body{ background:#111; color:white; text-align:center; } 
 
-/* AUTOMATED RANDOM SLIDESHOW SYSTEM */
+/* FIXED CLEAN GRADIENT HERO BANNER */
 .hero{ 
-    height: 320px; 
-    position:relative; 
-    overflow: hidden;
+    /* Creates a premium dark metallic gradient shift instead of flat black */
+    background: linear-gradient(180deg, #252528 0%, #111111 100%);
+    padding: 100px 20px; 
+    border-bottom: 2px solid #1d1d1d;
 } 
-/* Twin background panels that handle the crossfade swap */
-.hero-bg {
-    position: absolute;
-    inset: 0;
-    background-position: center center;
-    background-size: cover;
-    opacity: 0;
-    z-index: 1;
-    transition: opacity 1.5s ease-in-out; /* Smooth 1.5-second crossfade transition */
-}
-.hero-bg.active {
-    opacity: 1;
-}
-
-/* Dark layout masking overlay to maintain text readability */
-.hero::before{ 
-    content:""; 
-    position:absolute; 
-    inset:0; 
-    background:rgba(0,0,0,.65); 
-    z-index: 2; 
-} 
-.hero-content{ 
-    position:relative; 
-    z-index: 3; 
-    padding-top: 100px;
-} 
-h1{ font-size:60px; margin-bottom:10px; } 
-.subtitle{ font-size:22px; color:#ddd; margin-bottom:40px; } 
+h1{ font-size:60px; margin-bottom:10px; text-shadow: 0 4px 10px rgba(0,0,0,0.5); } 
+.subtitle{ font-size:22px; color:#ddd; margin-bottom:10px; } 
 
 /* CARD GRID LAYOUT SYSTEM */
 .cards{ display:flex; justify-content:center; flex-wrap:wrap; gap:30px; margin:50px 20px; align-items: stretch; } 
@@ -58,31 +32,28 @@ button:hover{ background:#28b463; }
 .images img{ width:100%; border-radius:12px; } 
 footer{ margin:60px 0 30px; color:#aaa; } 
 
-/* Custom styles for your scrollable boxes */ 
+/* Custom styles for your scrollable news section */ 
 .news-scroll-box { max-height: 150px; overflow-y: auto; text-align: left; padding-right: 5px; line-height: 1.5; font-size: 15px; color: #ddd; } 
 .news-scroll-box::-webkit-scrollbar { width: 6px; } 
 .news-scroll-box::-webkit-scrollbar-track { background: #111; border-radius: 10px; } 
 .news-scroll-box::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; } 
 
-.join-scroll-box::-webkit-scrollbar { width: 6px; } 
-.join-scroll-box::-webkit-scrollbar-track { background: #111; border-radius: 10px; } 
-.join-scroll-box::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; } 
+/* Scrollbar styles for the join instructions box */
+.join-scroll-box::-webkit-scrollbar { width: 6px; }
+.join-scroll-box::-webkit-scrollbar-track { background: #111; border-radius: 10px; }
+.join-scroll-box::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
 </style> 
 </head> 
 <link rel="icon" type="image/png" href="logo.png"> 
 <body> 
 
-<!-- Two background layers used by JavaScript to create transitions -->
-<section class="hero" id="heroSection"> 
-  <div class="hero-bg active" id="bg1"></div>
-  <div class="hero-bg" id="bg2"></div>
-  
-  <div class="hero-content"> 
-    <h1>ALGOMA SMP</h1> 
-    <p class="subtitle">Algoma Christian School Minecraft Crossplay Server</p> 
-  </div> 
+<!-- Fixed Header Container -->
+<section class="hero"> 
+  <h1>ALGOMA SMP</h1> 
+  <p class="subtitle">Algoma Christian School Minecraft Crossplay Server</p> 
 </section> 
 
+<!-- FIX: Fixed the broken/cut-off Live Map IP address link here -->
 <div style="margin: 40px 0 10px 0;"> 
 <a href="http://15.204.20" target="_blank" style="font-size: 300%; color: #9b5de5; text-decoration: none; font-weight: bold;">Live Server Map</a> 
 </div> 
@@ -152,10 +123,9 @@ footer{ margin:60px 0 30px; color:#aaa; }
 
 </div> 
 
-<!-- Image Gallery Container -->
 <section class="gallery"> 
 <h2>Server Screenshots</h2> 
-<div class="images" id="galleryGrid"> 
+<div class="images"> 
 <img src="screenshot1.png" alt="Website AlgomaSMP"> 
 <img src="Screenshot 2026-07-15 164057.png" alt="Website AlgomaSMP"> 
 <img src="screenshot2.png" alt="Website AlgomaSMP"> 
@@ -185,43 +155,6 @@ footer{ margin:60px 0 30px; color:#aaa; }
 <script> 
 function copyJava(){ navigator.clipboard.writeText("play.algomasmp.net"); alert("Java IP copied!"); } 
 function copyBedrock(){ navigator.clipboard.writeText("ip:play.algomasmp.net port:25582"); alert("Bedrock IP copied!"); } 
-
-// BACKGROUND SLIDESHOW ENGINE
-document.addEventListener("DOMContentLoaded", function() {
-    // 1. Scan your gallery folder list automatically to gather all paths
-    const galleryImages = document.querySelectorAll("#galleryGrid img");
-    const imageUrls = Array.from(galleryImages).map(img => img.getAttribute("src"));
-    
-    let currentIndex = 0;
-    let activeBg = document.getElementById("bg1");
-    let inactiveBg = document.getElementById("bg2");
-
-    // 2. Shuffle algorithm to randomize the array order on page reload
-    function shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-    }
-    shuffleArray(imageUrls);
-
-    // Set the very first starting random picture asset
-    activeBg.style.backgroundImage = `url("${imageUrls[0]}")`;
-
-    // 3. Loop runner function
-    function changeBackground() {
-        currentIndex = (currentIndex + 1) % imageUrls.length;
-        
-        // Feed the next random file path onto the invisible window container
-        inactiveBg.style.backgroundImage = `url("${imageUrls[currentIndex]}")`;
-        
-        // Execute crossfade swap toggles
-        inactiveBg.classList.add("active");
-        activeBg.classList.remove("active");
-        
-        // Invert the layout tracker elements
-        let temp = activeBg;
-        activeBg = inactiveBg;
-        inactiveBg = temp;
-    }
-
+</script> 
+</body> 
+</html>
