@@ -1,1 +1,924 @@
-<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Algoma SMP</title> /* MINECRAFT BLOCK FLAPPY GAME */ .game-section { max-width: 900px; margin: 60px auto; padding: 20px; } .game-section h2 { margin-bottom: 10px; } .game-description { color: #aaa; margin-bottom: 20px; } .game-container { position: relative; width: 100%; max-width: 800px; height: 450px; margin: auto; overflow: hidden; border: 5px solid #333; border-radius: 12px; background: #87ceeb; cursor: pointer; touch-action: none; } #gameCanvas { width: 100%; height: 100%; display: block; } .game-ui { position: absolute; top: 15px; left: 0; width: 100%; pointer-events: none; text-shadow: 2px 2px 4px #000; } #gameScore { font-size: 32px; font-weight: bold; } .game-over { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,.65); z-index: 10; } .game-over-content { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300px; text-align: center; } .game-over-content h3 { font-size: 42px; margin-bottom: 10px; } .game-over-content p { font-size: 20px; margin-bottom: 20px; } .game-over-content button { position: static !important; display: inline-block !important; margin: 0 !important; pointer-events: auto; background: #2ecc71 !important; color: white; font-size: 18px; padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; } .game-over-content button:hover { background: #28b463 !important; } .game-controls { margin-top: 15px; color: #aaa; } <style> *{ margin:0; padding:0; box-sizing:border-box; font-family:Arial, Helvetica, sans-serif; } body{ background:#111; color:white; text-align:center; } /* STABLE HERO BANNER WITH CROSSFADE COMPATIBILITY */ .hero { height: 380px; position: relative; overflow: hidden; background-color: #1a1a1a; background-position: center center; background-size: cover; transition: background-image 1.2s ease-in-out; /* Creates a smooth blend transition */ } /* Transparent overlay tint that guarantees text readability over light screenshots */ .hero::before { content: ""; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.65); z-index: 1; } .hero-content { position: relative; z-index: 2; /* Forces text to stay on top layer */ padding-top: 120px; } h1{ font-size:60px; margin-bottom:10px; } .subtitle{ font-size:22px; color:#ddd; margin-bottom:40px; } /* MODERN LINK BUTTON STYLING */ .map-btn { display: inline-block; background: #9b5de5; color: white !important; text-decoration: none; font-size: 24px; font-weight: bold; padding: 15px 35px; border-radius: 10px; box-shadow: 0 4px 15px rgba(155, 93, 229, 0.4); transition: all 0.2s ease-in-out; } .map-btn:hover { background: #8338ec; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(155, 93, 229, 0.6); } /* CARD GRID LAYOUT SYSTEM */ .cards{ display:flex; justify-content:center; flex-wrap:wrap; gap:30px; margin:50px 20px; align-items: stretch; } .card{ background:#1d1d1d; border-radius:15px; width:320px; padding:30px; box-shadow:0 0 20px rgba(0,0,0,.5); text-align: center; } .card h2{ margin-bottom:15px; } .ip{ font-size:22px; color:#4ade80; margin:15px 0; word-break:break-word; } button{ background:#2ecc71; color:white; border:none; padding:12px 20px; border-radius:8px; cursor:pointer; font-size:16px; } button:hover{ background:#28b463; } .gallery{ max-width:1200px; margin:60px auto; padding:20px; } .gallery h2{ margin-bottom:30px; } .images{ display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; } .images img{ width:100%; border-radius:12px; } footer{ margin:60px 0 30px; color:#aaa; } /* Custom styles for your scrollable news section */ .news-scroll-box { max-height: 150px; overflow-y: auto; text-align: left; padding-right: 5px; line-height: 1.5; font-size: 15px; color: #ddd; } .news-scroll-box::-webkit-scrollbar { width: 6px; } .news-scroll-box::-webkit-scrollbar-track { background: #111; border-radius: 10px; } .news-scroll-box::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; } /* Scrollbar styles for the join instructions box */ .join-scroll-box { max-height: 150px; overflow-y: auto; text-align: left; padding-right: 5px; } .join-scroll-box::-webkit-scrollbar { width: 6px; } .join-scroll-box::-webkit-scrollbar-track { background: #111; border-radius: 10px; } .join-scroll-box::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; } </style> </head> <link rel="icon" type="image/png" href="logo.png"> <body> <!-- Header dynamic background container --> <section class="hero" id="heroBanner"> <div class="hero-content"> <h1>ALGOMA SMP</h1> <p class="subtitle">Algoma Christian School Minecraft Crossplay Server</p> </div> </section> <!-- FIX: Corrected and fully specified your complete Live Map IP Address link --> <div style="margin: 40px 0 10px 0;"> <a href="http://15.204.20.247:8170/?world=minecraft_overworld&zoom=0&x=424&z=-156" target="_blank" class="map-btn">Live Server Map</a> </div> <div class="cards"> <!-- Module 1: How to Join Instructions --> <div class="card"> <h2>How to Join</h2> <div class="join-scroll-box"> <p style="margin-bottom: 15px; font-weight: bold; color: #4ade80; line-height: 1.4;"> Algoma SMP is a cross-play Minecraft server, meaning Java Edition and Bedrock Edition players can play together! </p> <h3 style="color: #fff; margin: 15px 0 8px 0; display: flex; align-items: center; gap: 5px;">🖥️ Java Edition</h3> <ol style="margin-left: 20px; margin-bottom: 15px; line-height: 1.6;"> <li style="margin-bottom: 4px;">Open <strong>Minecraft Java Edition</strong>.</li> <li style="margin-bottom: 4px;">Click <strong>Multiplayer</strong>.</li> <li style="margin-bottom: 4px;">Click <strong>Add Server</strong>.</li> <li style="margin-bottom: 4px;">Go to the <strong>Algoma SMP website</strong> and copy the <strong>Java IP address</strong>.</li> <li style="margin-bottom: 4px;">Paste the IP into the <strong>Server Address</strong> box.</li> <li style="margin-bottom: 4px;">Click <strong>Done</strong>.</li> <li style="margin-bottom: 4px;">Select <strong>Algoma SMP</strong> and click <strong>Join Server</strong>.</li> </ol> <h3 style="color: #fff; margin: 15px 0 8px 0; display: flex; align-items: center; gap: 5px;">📱 Bedrock Edition</h3> <ol style="margin-left: 20px; margin-bottom: 15px; line-height: 1.6;"> <li style="margin-bottom: 4px;">Open <strong>Minecraft Bedrock Edition</strong>.</li> <li style="margin-bottom: 4px;">Click <strong>Play</strong>.</li> <li style="margin-bottom: 4px;">Go to the <strong>Servers</strong> tab.</li> <li style="margin-bottom: 4px;">Select <strong>Add Server</strong>.</li> <li style="margin-bottom: 4px;">Go to the <strong>Algoma SMP website</strong> and copy the <strong>Bedrock IP address</strong> and <strong>Port</strong>.</li> <li style="margin-bottom: 4px;">Paste them into the corresponding fields.</li> <li style="margin-bottom: 4px;">Click <strong>Save</strong>.</li> <li style="margin-bottom: 4px;">Select <strong>Algoma SMP</strong> and join the server!</li> </ol> <h3 style="color: #fff; margin: 15px 0 8px 0;">🎮 Play Together!</h3> <p style="margin-bottom: 10px; line-height: 1.5; color: #ddd;"> That's it! You can now play <strong>Algoma SMP</strong> with your friends, whether they're playing on <strong>Java Edition or Bedrock Edition</strong>. </p> <p style="font-size: 13px; color: #aaa; line-height: 1.4; font-style: italic;"> Make sure you copy the IP addresses directly from the Algoma SMP website so you always have the correct server information. </p> </div> </div> <!-- Module 2: Scrollable News and Updates --> <div class="card"> <h2>News and Updates</h2> <div class="news-scroll-box"> <p>Updated the server to Java 26.2.</p> <p style="margin-top: 10px;">Added some new Anti-Cheat plugins.</p> <p style="margin-top: 10px;">Updated to Java 26.1.2.</p> <p style="margin-top: 10px;">Updated to Java 26.1.</p> <p style="margin-top: 10px;">Updated to Java 1.21.11</p> </div> </div> <!-- Module 3: Java Information --> <div class="card"> <h2>💻 Java Edition</h2> <p class="ip" id="javaip">play.algomasmp.net</p> <button onclick="copyJava()">Copy IP</button> </div> <!-- Module 4: Bedrock Information --> <div class="card"> <h2>📱 Bedrock Edition</h2> <p class="ip" id="bedrockip">play.algomasmp.net with port 25582</p> <button onclick="copyBedrock()">Copy IP</button> </div> </div> <!-- MINECRAFT BLOCK FLAPPY GAME --> <section class="game-section"> <h2>🟩 Blocky Bird</h2> <p class="game-description"> Fly through the Minecraft blocks! Click, tap, or press SPACE to jump. </p> <div class="game-container" id="gameContainer"> <canvas id="gameCanvas" width="800" height="450"></canvas> <div class="game-ui"> <div id="gameScore">Score: 0</div> </div> <div class="game-over" id="gameOver"> <div class="game-over-content"> <h3>Game Over!</h3> <p id="finalScore">Score: 0</p> <button type="button" id="restartGameButton"> Play Again </button> </div> </div> </div> <div class="game-controls"> 🖱️ Click &nbsp; | &nbsp; ⌨️ SPACE &nbsp; | &nbsp; 📱 Tap </div> </section> <section class="gallery"> <h2>Server Screenshots</h2> <div class="images"> <img src="screenshot1.png" alt="Website AlgomaSMP"> <img src="Screenshot 2026-07-15 164057.png" alt="Website AlgomaSMP"> <img src="screenshot2.png" alt="Website AlgomaSMP"> <img src="screenshot3.png" alt="Website AlgomaSMP"> <img src="screenshot4.png" alt="Website AlgomaSMP"> <img src="screenshot5.png" alt="Website AlgomaSMP"> <img src="screenshot6.png" alt="Website AlgomaSMP"> <img src="screenshot7.png" alt="Website AlgomaSMP"> <img src="screenshot8.png" alt="Website AlgomaSMP"> <img src="screenshot9.png" alt="Website AlgomaSMP"> <img src="screenshot10.png" alt="Website AlgomaSMP"> <img src="screenshot11.png" alt="Website AlgomaSMP"> <img src="screenshot12.png" alt="Website AlgomaSMP"> <img src="screenshot13.png" alt="Website AlgomaSMP"> <img src="screenshot14.png" alt="Website AlgomaSMP"> <img src="screenshot15.png" alt="Website AlgomaSMP"> <img src="screenshot16.png" alt="Website AlgomaSMP"> <img src="screenshot17.png" alt="Website AlgomaSMP"> <img src="screenshot18.png" alt="Website AlgomaSMP"> <img src="screenshot19.png" alt="Website AlgomaSMP"> <img src="screenshot20.png" alt="Website AlgomaSMP"> </div> </section> <footer> Created By Byron Bergsma, 2026 </footer> <script> function copyJava(){ navigator.clipboard.writeText("play.algomasmp.net"); alert("Java IP copied!"); } function copyBedrock(){ navigator.clipboard.writeText("ip:play.algomasmp.net port:25582"); alert("Bedrock IP copied!"); } // AUTOMATIC SHUFFLING BACKGROUND SLIDESHOW SYSTEM document.addEventListener("DOMContentLoaded", function() { const galleryContainer = document.querySelector(".images"); if (!galleryContainer) return; const images = Array.from(galleryContainer.getElementsByTagName("img")); if (images.length === 0) return; // Grabs all source images directly from your screenshot grid gallery below let imageSources = images.map(img => img.getAttribute("src")); // Shuffles the screenshot array list completely randomly for (let i = imageSources.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [imageSources[i], imageSources[j]] = [imageSources[j], imageSources[i]]; } const heroElement = document.getElementById("heroBanner"); let currentImageIndex = 0; function rotationEngine() { heroElement.style.backgroundImage = url('${imageSources[currentImageIndex]}'); currentImageIndex = (currentImageIndex + 1) % imageSources.length; } // Activates the script loop smoothly (Swapping images every 5 seconds) rotationEngine(); setInterval(rotationEngine, 5000); }); // ========================================== // MINECRAFT BLOCKY BIRD GAME // ========================================== const gameCanvas = document.getElementById("gameCanvas"); if (gameCanvas) { const ctx = gameCanvas.getContext("2d"); const gameWidth = gameCanvas.width; const gameHeight = gameCanvas.height; let bird; let blocks; let score; let gameRunning; let gameStarted; let frameCount; function resetGame() { bird = { x: 150, y: 220, width: 32, height: 32, velocity: 0 }; blocks = []; score = 0; frameCount = 0; gameRunning = true; gameStarted = true; document.getElementById("gameOver").style.display = "none"; document.getElementById("gameScore").textContent = "Score: 0"; gameLoop(); } function jumpBird() { if (!gameStarted) { resetGame(); return; } if (!gameRunning) { return; } bird.velocity = -1; } function createBlock() { const gapSize = Math.max(160, 190 - score * 1.5); const minHeight = 50; const maxHeight = gameHeight - gapSize - 50; const topHeight = Math.floor( Math.random() * (maxHeight - minHeight) ) + minHeight; blocks.push({ x: gameWidth, top: topHeight, gap: gapSize, width: 65, passed: false }); } function drawBackground() { // Sky ctx.fillStyle = "#78c7e8"; ctx.fillRect( 0, 0, gameWidth, gameHeight ); // Clouds ctx.fillStyle = "rgba(255,255,255,.7)"; ctx.fillRect(100, 70, 100, 25); ctx.fillRect(130, 50, 50, 30); ctx.fillRect(550, 100, 120, 25); ctx.fillRect(580, 80, 60, 30); // Grass ground ctx.fillStyle = "#55a630"; ctx.fillRect( 0, gameHeight - 35, gameWidth, 35 ); // Dirt ctx.fillStyle = "#8b5a2b"; ctx.fillRect( 0, gameHeight - 25, gameWidth, 25 ); } function drawBlock(x, y, width, height) { // Dirt ctx.fillStyle = "#8b5a2b"; ctx.fillRect( x, y, width, height ); // Dirt pixels ctx.fillStyle = "#704214"; for (let px = x + 8; px < x + width; px += 20) { for (let py = y + 25; py < y + height; py += 25) { ctx.fillRect( px, py, 8, 6 ); } } // Grass top ctx.fillStyle = "#4caf32"; ctx.fillRect( x, y, width, 15 ); // Grass highlights ctx.fillStyle = "#65c43b"; ctx.fillRect( x + 5, y + 2, width - 10, 5 ); } function drawBird() { // Body ctx.fillStyle = "#8b5a2b"; ctx.fillRect( bird.x, bird.y, bird.width, bird.height ); // Head ctx.fillStyle = "#a66a35"; ctx.fillRect( bird.x + 5, bird.y - 5, 25, 25 ); // Eye ctx.fillStyle = "white"; ctx.fillRect( bird.x + 22, bird.y + 2, 7, 7 ); ctx.fillStyle = "black"; ctx.fillRect( bird.x + 25, bird.y + 4, 4, 4 ); // Beak ctx.fillStyle = "#e6b800"; ctx.fillRect( bird.x + 30, bird.y + 10, 10, 7 ); // Wing ctx.fillStyle = "#704214"; ctx.fillRect( bird.x - 5, bird.y + 15, 15, 12 ); } function checkCollision(block) { const birdRight = bird.x + bird.width; const birdBottom = bird.y + bird.height; const blockRight = block.x + block.width; const topCollision = birdRight > block.x && bird.x < blockRight && bird.y < block.top; const bottomCollision = birdRight > block.x && bird.x < blockRight && birdBottom > block.top + block.gap; return topCollision || bottomCollision; } function endGame() { gameRunning = false; document.getElementById("finalScore").textContent = "Score: " + score; document.getElementById("gameOver").style.display = "flex"; } function updateGame() { if (!gameRunning) { return; } frameCount++; // Gravity bird.velocity += 0.02; bird.y += bird.velocity; // Spawn blocks const spawnRate = Math.max(75, 110 - score * 2); if (frameCount % spawnRate === 0) { createBlock(); } // Move blocks const speed = Math.min(3.5 + score * 0.1, 7); for (let i = blocks.length - 1; i >= 0; i--) { const block = blocks[i]; block.x -= speed; // Score if ( !block.passed && block.x + block.width < bird.x ) { block.passed = true; score++; document.getElementById( "gameScore" ).textContent = "Score: " + score; } // Collision if (checkCollision(block)) { endGame(); } // Remove old blocks if (block.x + block.width < 0) { blocks.splice(i, 1); } } // Top / bottom collision if ( bird.y < 0 || bird.y + bird.height > gameHeight - 35 ) { endGame(); } } function drawGame() { drawBackground(); for (const block of blocks) { // Top block drawBlock( block.x, 0, block.width, block.top ); // Bottom block drawBlock( block.x, block.top + block.gap, block.width, gameHeight - (block.top + block.gap) ); } drawBird(); } function gameLoop() { if (!gameRunning) { drawGame(); return; } updateGame(); drawGame(); requestAnimationFrame(gameLoop); } // Controls document .getElementById("gameContainer") .addEventListener( "click", function(event) { if ( event.target.tagName !== "BUTTON" ) { jumpBird(); } } ); document.addEventListener( "keydown", function(event) { if ( event.code === "Space" ) { event.preventDefault(); jumpBird(); } } ); document .getElementById("gameContainer") .addEventListener( "touchstart", function(event) { event.preventDefault(); jumpBird(); }, { passive: false } ); document.getElementById("restartGameButton").addEventListener( "click", function(event) { event.stopPropagation(); resetGame(); } ); // Initial screen bird = { x: 150, y: 220, width: 32, height: 32, velocity: 0 }; blocks = []; score = 0; gameRunning = false; gameStarted = false; drawGame(); } </script> </body> </html>
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+<meta charset="UTF-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<title>Algoma SMP</title>
+
+<style>
+
+/* MINECRAFT BLOCK FLAPPY GAME */
+.game-section {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 20px;
+}
+
+.game-section h2 {
+    margin-bottom: 10px;
+}
+
+.game-description {
+    color: #aaa;
+    margin-bottom: 20px;
+}
+
+.game-container {
+    position: relative !important;
+    width: 100%;
+    max-width: 800px;
+    height: 450px;
+    margin: auto;
+    overflow: hidden;
+    border: 5px solid #333;
+    border-radius: 12px;
+    background: #87ceeb;
+    cursor: pointer;
+    touch-action: none;
+}
+
+#gameCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.game-ui {
+    position: absolute;
+    top: 15px;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    text-shadow: 2px 2px 4px #000;
+}
+
+#gameScore {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.game-over {
+    display: none;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: rgba(0,0,0,.65);
+    z-index: 10;
+}
+
+.game-over-content {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 300px;
+    text-align: center;
+}
+
+.game-over-content h3 {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+.game-over-content p {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.game-over-content button {
+    position: static !important;
+    display: inline-block !important;
+    margin: 0 !important;
+    pointer-events: auto;
+    background: #2ecc71 !important;
+    color: white;
+    font-size: 18px;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.game-over-content button:hover {
+    background: #28b463 !important;
+}
+
+.game-controls {
+    margin-top: 15px;
+    color: #aaa;
+}
+    
+*{ margin:0; padding:0; box-sizing:border-box; font-family:Arial, Helvetica, sans-serif; } 
+body{ background:#111; color:white; text-align:center; } 
+
+/* STABLE HERO BANNER WITH CROSSFADE COMPATIBILITY */
+.hero { 
+    height: 380px; 
+    position: relative; 
+    overflow: hidden;
+    background-color: #1a1a1a; 
+    background-position: center center;
+    background-size: cover;
+    transition: background-image 1.2s ease-in-out; /* Creates a smooth blend transition */
+} 
+
+/* Transparent overlay tint that guarantees text readability over light screenshots */
+.hero::before { 
+    content: ""; 
+    position: absolute; 
+    inset: 0; 
+    background: rgba(0, 0, 0, 0.65); 
+    z-index: 1; 
+} 
+.hero-content { 
+    position: relative; 
+    z-index: 2; /* Forces text to stay on top layer */
+    padding-top: 120px;
+} 
+h1{ font-size:60px; margin-bottom:10px; } 
+.subtitle{ font-size:22px; color:#ddd; margin-bottom:40px; } 
+
+/* MODERN LINK BUTTON STYLING */
+.map-btn { 
+    display: inline-block; 
+    background: #9b5de5; 
+    color: white !important; 
+    text-decoration: none; 
+    font-size: 24px; 
+    font-weight: bold; 
+    padding: 15px 35px; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 15px rgba(155, 93, 229, 0.4); 
+    transition: all 0.2s ease-in-out; 
+} 
+.map-btn:hover { 
+    background: #8338ec; 
+    transform: translateY(-2px); 
+    box-shadow: 0 6px 20px rgba(155, 93, 229, 0.6); 
+} 
+
+/* CARD GRID LAYOUT SYSTEM */
+.cards{ display:flex; justify-content:center; flex-wrap:wrap; gap:30px; margin:50px 20px; align-items: stretch; } 
+.card{ background:#1d1d1d; border-radius:15px; width:320px; padding:30px; box-shadow:0 0 20px rgba(0,0,0,.5); text-align: center; } 
+.card h2{ margin-bottom:15px; } 
+.ip{ font-size:22px; color:#4ade80; margin:15px 0; word-break:break-word; } 
+button{ background:#2ecc71; color:white; border:none; padding:12px 20px; border-radius:8px; cursor:pointer; font-size:16px; } 
+button:hover{ background:#28b463; } 
+
+.gallery{ max-width:1200px; margin:60px auto; padding:20px; } 
+.gallery h2{ margin-bottom:30px; } 
+.images{ display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; } 
+.images img{ width:100%; border-radius:12px; } 
+footer{ margin:60px 0 30px; color:#aaa; } 
+
+/* Custom styles for your scrollable news section */ 
+.news-scroll-box { max-height: 150px; overflow-y: auto; text-align: left; padding-right: 5px; line-height: 1.5; font-size: 15px; color: #ddd; } 
+.news-scroll-box::-webkit-scrollbar { width: 6px; } 
+.news-scroll-box::-webkit-scrollbar-track { background: #111; border-radius: 10px; } 
+.news-scroll-box::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; } 
+
+/* Scrollbar styles for the join instructions box */ 
+.join-scroll-box { max-height: 150px; overflow-y: auto; text-align: left; padding-right: 5px; } 
+.join-scroll-box::-webkit-scrollbar { width: 6px; } 
+.join-scroll-box::-webkit-scrollbar-track { background: #111; border-radius: 10px; } 
+.join-scroll-box::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; } 
+</style> 
+</head> 
+<link rel="icon" type="image/png" href="logo.png"> 
+<body> 
+
+<!-- Header dynamic background container --> 
+<section class="hero" id="heroBanner"> 
+<div class="hero-content"> 
+<h1>ALGOMA SMP</h1> 
+<p class="subtitle">Algoma Christian School Minecraft Crossplay Server</p> 
+</div> 
+</section> 
+
+<!-- FIX: Corrected and fully specified your complete Live Map IP Address link --> 
+<div style="margin: 40px 0 10px 0;"> 
+<a href="http://15.204.20.247:8170/?world=minecraft_overworld&zoom=0&x=424&z=-156" target="_blank" class="map-btn">Live Server Map</a> 
+</div> 
+
+<div class="cards"> 
+<!-- Module 1: How to Join Instructions --> 
+<div class="card"> 
+<h2>How to Join</h2> 
+<div class="join-scroll-box"> 
+<p style="margin-bottom: 15px; font-weight: bold; color: #4ade80; line-height: 1.4;"> Algoma SMP is a cross-play Minecraft server, meaning Java Edition and Bedrock Edition players can play together! </p> 
+<h3 style="color: #fff; margin: 15px 0 8px 0; display: flex; align-items: center; gap: 5px;">🖥️ Java Edition</h3> 
+<ol style="margin-left: 20px; margin-bottom: 15px; line-height: 1.6;"> 
+<li style="margin-bottom: 4px;">Open <strong>Minecraft Java Edition</strong>.</li> 
+<li style="margin-bottom: 4px;">Click <strong>Multiplayer</strong>.</li> 
+<li style="margin-bottom: 4px;">Click <strong>Add Server</strong>.</li> 
+<li style="margin-bottom: 4px;">Go to the <strong>Algoma SMP website</strong> and copy the <strong>Java IP address</strong>.</li> 
+<li style="margin-bottom: 4px;">Paste the IP into the <strong>Server Address</strong> box.</li> 
+<li style="margin-bottom: 4px;">Click <strong>Done</strong>.</li> 
+<li style="margin-bottom: 4px;">Select <strong>Algoma SMP</strong> and click <strong>Join Server</strong>.</li> 
+</ol> 
+<h3 style="color: #fff; margin: 15px 0 8px 0; display: flex; align-items: center; gap: 5px;">📱 Bedrock Edition</h3> 
+<ol style="margin-left: 20px; margin-bottom: 15px; line-height: 1.6;"> 
+<li style="margin-bottom: 4px;">Open <strong>Minecraft Bedrock Edition</strong>.</li> 
+<li style="margin-bottom: 4px;">Click <strong>Play</strong>.</li> 
+<li style="margin-bottom: 4px;">Go to the <strong>Servers</strong> tab.</li> 
+<li style="margin-bottom: 4px;">Select <strong>Add Server</strong>.</li> 
+<li style="margin-bottom: 4px;">Go to the <strong>Algoma SMP website</strong> and copy the <strong>Bedrock IP address</strong> and <strong>Port</strong>.</li> 
+<li style="margin-bottom: 4px;">Paste them into the corresponding fields.</li> 
+<li style="margin-bottom: 4px;">Click <strong>Save</strong>.</li> 
+<li style="margin-bottom: 4px;">Select <strong>Algoma SMP</strong> and join the server!</li> 
+</ol> 
+<h3 style="color: #fff; margin: 15px 0 8px 0;">🎮 Play Together!</h3> 
+<p style="margin-bottom: 10px; line-height: 1.5; color: #ddd;"> That's it! You can now play <strong>Algoma SMP</strong> with your friends, whether they're playing on <strong>Java Edition or Bedrock Edition</strong>. </p> 
+<p style="font-size: 13px; color: #aaa; line-height: 1.4; font-style: italic;"> Make sure you copy the IP addresses directly from the Algoma SMP website so you always have the correct server information. </p> 
+</div> 
+</div> 
+
+<!-- Module 2: Scrollable News and Updates --> 
+<div class="card"> 
+<h2>News and Updates</h2> 
+<div class="news-scroll-box"> 
+<p>Updated the server to Java 26.2.</p> 
+<p style="margin-top: 10px;">Added some new Anti-Cheat plugins.</p> 
+<p style="margin-top: 10px;">Updated to Java 26.1.2.</p> 
+<p style="margin-top: 10px;">Updated to Java 26.1.</p> 
+<p style="margin-top: 10px;">Updated to Java 1.21.11</p> 
+</div> 
+</div> 
+
+<!-- Module 3: Java Information --> 
+<div class="card"> 
+<h2>💻 Java Edition</h2> 
+<p class="ip" id="javaip">play.algomasmp.net</p> 
+<button onclick="copyJava()">Copy IP</button> 
+</div> 
+
+<!-- Module 4: Bedrock Information --> 
+<div class="card"> 
+<h2>📱 Bedrock Edition</h2> 
+<p class="ip" id="bedrockip">play.algomasmp.net with port 25582</p> 
+<button onclick="copyBedrock()">Copy IP</button> 
+</div> 
+</div> 
+
+<!-- MINECRAFT BLOCK FLAPPY GAME -->
+<section class="game-section">
+
+    <h2>🟩 Blocky Bird</h2>
+
+    <p class="game-description">
+        Fly through the Minecraft blocks! Click, tap, or press SPACE to jump.
+    </p>
+
+    <div class="game-container" id="gameContainer">
+
+        <canvas id="gameCanvas" width="800" height="450"></canvas>
+
+        <div class="game-ui">
+            <div id="gameScore">Score: 0</div>
+            <div id="gameHighScore">High Score: 0</div>
+        </div>
+
+<div class="game-over" id="gameOver">
+
+    <div class="game-over-content">
+
+        <h3>Game Over!</h3>
+
+        <p id="finalScore">Score: 0</p>
+        <p id="finalHighScore">High Score: 0</p>
+
+        <button type="button" id="restartGameButton">
+            Play Again
+        </button>
+
+    </div>
+
+</div>
+
+    </div>
+
+    <div class="game-controls">
+        🖱️ Click &nbsp; | &nbsp; ⌨️ SPACE &nbsp; | &nbsp; 📱 Tap
+    </div>
+
+</section>
+    
+<section class="gallery"> 
+<h2>Server Screenshots</h2> 
+<div class="images"> 
+<img src="screenshot1.png" alt="Website AlgomaSMP"> 
+<img src="Screenshot 2026-07-15 164057.png" alt="Website AlgomaSMP"> 
+<img src="screenshot2.png" alt="Website AlgomaSMP"> 
+<img src="screenshot3.png" alt="Website AlgomaSMP"> 
+<img src="screenshot4.png" alt="Website AlgomaSMP"> 
+<img src="screenshot5.png" alt="Website AlgomaSMP"> 
+<img src="screenshot6.png" alt="Website AlgomaSMP"> 
+<img src="screenshot7.png" alt="Website AlgomaSMP"> 
+<img src="screenshot8.png" alt="Website AlgomaSMP"> 
+<img src="screenshot9.png" alt="Website AlgomaSMP"> 
+<img src="screenshot10.png" alt="Website AlgomaSMP"> 
+<img src="screenshot11.png" alt="Website AlgomaSMP"> 
+<img src="screenshot12.png" alt="Website AlgomaSMP"> 
+<img src="screenshot13.png" alt="Website AlgomaSMP"> 
+<img src="screenshot14.png" alt="Website AlgomaSMP"> 
+<img src="screenshot15.png" alt="Website AlgomaSMP"> 
+<img src="screenshot16.png" alt="Website AlgomaSMP"> 
+<img src="screenshot17.png" alt="Website AlgomaSMP"> 
+<img src="screenshot18.png" alt="Website AlgomaSMP"> 
+<img src="screenshot19.png" alt="Website AlgomaSMP"> 
+<img src="screenshot20.png" alt="Website AlgomaSMP"> 
+</div> 
+</section> 
+
+<footer> Created By Byron Bergsma, 2026 </footer> 
+
+<script> 
+function copyJava(){ navigator.clipboard.writeText("play.algomasmp.net"); alert("Java IP copied!"); } 
+function copyBedrock(){ navigator.clipboard.writeText("ip:play.algomasmp.net port:25582"); alert("Bedrock IP copied!"); } 
+
+// AUTOMATIC SHUFFLING BACKGROUND SLIDESHOW SYSTEM 
+document.addEventListener("DOMContentLoaded", function() { 
+    const galleryContainer = document.querySelector(".images"); 
+    if (!galleryContainer) return; 
+    
+    const images = Array.from(galleryContainer.getElementsByTagName("img")); 
+    if (images.length === 0) return; 
+    
+    // Grabs all source images directly from your screenshot grid gallery below 
+    let imageSources = images.map(img => img.getAttribute("src")); 
+    
+    // Shuffles the screenshot array list completely randomly 
+    for (let i = imageSources.length - 1; i > 0; i--) { 
+        const j = Math.floor(Math.random() * (i + 1)); 
+        [imageSources[i], imageSources[j]] = [imageSources[j], imageSources[i]]; 
+    } 
+    
+    const heroElement = document.getElementById("heroBanner"); 
+    let currentImageIndex = 0; 
+    
+    function rotationEngine() { 
+        heroElement.style.backgroundImage = `url('${imageSources[currentImageIndex]}')`; 
+        currentImageIndex = (currentImageIndex + 1) % imageSources.length; 
+    } 
+    
+    // Activates the script loop smoothly (Swapping images every 5 seconds) 
+    rotationEngine(); 
+    setInterval(rotationEngine, 5000);
+});
+
+// ==========================================
+// MINECRAFT BLOCKY BIRD GAME
+// ==========================================
+
+const gameCanvas = document.getElementById("gameCanvas");
+
+if (gameCanvas) {
+
+    const ctx = gameCanvas.getContext("2d");
+
+    const gameWidth = gameCanvas.width;
+    const gameHeight = gameCanvas.height;
+
+    let bird;
+    let blocks;
+    let score;
+    let gameRunning;
+    let gameStarted;
+    let frameCount;
+    let highScore = Number(localStorage.getItem("blockyBirdHighScore")) || 0;
+
+document.getElementById("gameHighScore").textContent =
+    "High Score: " + highScore;
+
+    function resetGame() {
+
+        lastTime = 0;
+
+        bird = {
+            x: 150,
+            y: 220,
+            width: 32,
+            height: 32,
+            velocity: 0
+        };
+
+        blocks = [];
+
+        score = 0;
+
+        frameCount = 0;
+
+        gameRunning = true;
+
+        gameStarted = true;
+
+        document.getElementById("gameOver").style.display = "none";
+
+        document.getElementById("gameScore").textContent = "Score: 0";
+
+        gameLoop();
+    }
+
+    function jumpBird() {
+
+        if (!gameStarted) {
+            resetGame();
+            return;
+        }
+
+        if (!gameRunning) {
+            return;
+        }
+
+        bird.velocity = -4;
+    }
+
+    function createBlock() {
+
+        const gapSize = Math.max(160, 190 - score * 1.5);
+
+        const minHeight = 50;
+
+        const maxHeight = gameHeight - gapSize - 50;
+
+        const topHeight =
+            Math.floor(
+                Math.random() * (maxHeight - minHeight)
+            ) + minHeight;
+
+        blocks.push({
+            x: gameWidth,
+            top: topHeight,
+            gap: gapSize,
+            width: 65,
+            passed: false
+        });
+    }
+
+    function drawBackground() {
+
+        // Sky
+
+        ctx.fillStyle = "#78c7e8";
+
+        ctx.fillRect(
+            0,
+            0,
+            gameWidth,
+            gameHeight
+        );
+
+        // Clouds
+
+        ctx.fillStyle = "rgba(255,255,255,.7)";
+
+        ctx.fillRect(100, 70, 100, 25);
+
+        ctx.fillRect(130, 50, 50, 30);
+
+        ctx.fillRect(550, 100, 120, 25);
+
+        ctx.fillRect(580, 80, 60, 30);
+
+        // Grass ground
+
+        ctx.fillStyle = "#55a630";
+
+        ctx.fillRect(
+            0,
+            gameHeight - 35,
+            gameWidth,
+            35
+        );
+
+        // Dirt
+
+        ctx.fillStyle = "#8b5a2b";
+
+        ctx.fillRect(
+            0,
+            gameHeight - 25,
+            gameWidth,
+            25
+        );
+
+    }
+
+    function drawBlock(x, y, width, height) {
+
+        // Dirt
+
+        ctx.fillStyle = "#8b5a2b";
+
+        ctx.fillRect(
+            x,
+            y,
+            width,
+            height
+        );
+
+        // Dirt pixels
+
+        ctx.fillStyle = "#704214";
+
+        for (let px = x + 8; px < x + width; px += 20) {
+
+            for (let py = y + 25; py < y + height; py += 25) {
+
+                ctx.fillRect(
+                    px,
+                    py,
+                    8,
+                    6
+                );
+
+            }
+
+        }
+
+        // Grass top
+
+        ctx.fillStyle = "#4caf32";
+
+        ctx.fillRect(
+            x,
+            y,
+            width,
+            15
+        );
+
+        // Grass highlights
+
+        ctx.fillStyle = "#65c43b";
+
+        ctx.fillRect(
+            x + 5,
+            y + 2,
+            width - 10,
+            5
+        );
+
+    }
+
+    function drawBird() {
+
+        // Body
+
+        ctx.fillStyle = "#8b5a2b";
+
+        ctx.fillRect(
+            bird.x,
+            bird.y,
+            bird.width,
+            bird.height
+        );
+
+        // Head
+
+        ctx.fillStyle = "#a66a35";
+
+        ctx.fillRect(
+            bird.x + 5,
+            bird.y - 5,
+            25,
+            25
+        );
+
+        // Eye
+
+        ctx.fillStyle = "white";
+
+        ctx.fillRect(
+            bird.x + 22,
+            bird.y + 2,
+            7,
+            7
+        );
+
+        ctx.fillStyle = "black";
+
+        ctx.fillRect(
+            bird.x + 25,
+            bird.y + 4,
+            4,
+            4
+        );
+
+        // Beak
+
+        ctx.fillStyle = "#e6b800";
+
+        ctx.fillRect(
+            bird.x + 30,
+            bird.y + 10,
+            10,
+            7
+        );
+
+        // Wing
+
+        ctx.fillStyle = "#704214";
+
+        ctx.fillRect(
+            bird.x - 5,
+            bird.y + 15,
+            15,
+            12
+        );
+
+    }
+
+    function checkCollision(block) {
+
+        const birdRight =
+            bird.x + bird.width;
+
+        const birdBottom =
+            bird.y + bird.height;
+
+        const blockRight =
+            block.x + block.width;
+
+        const topCollision =
+            birdRight > block.x &&
+            bird.x < blockRight &&
+            bird.y < block.top;
+
+        const bottomCollision =
+            birdRight > block.x &&
+            bird.x < blockRight &&
+            birdBottom > block.top + block.gap;
+
+        return topCollision || bottomCollision;
+
+    }
+
+    function endGame() {
+
+        gameRunning = false;
+
+        document.getElementById("finalScore").textContent =
+            "Score: " + score;
+        document.getElementById("finalHighScore").textContent =
+            "High Score: " + highScore;
+
+document.getElementById("gameOver").style.display =
+    "block";
+
+    }
+
+function updateGame(deltaTime) {
+
+        if (!gameRunning) {
+            return;
+        }
+
+        frameCount += deltaTime;
+
+
+        // Gravity
+
+bird.velocity += 0.15 * deltaTime;
+
+bird.y += bird.velocity * deltaTime;
+
+        // Spawn blocks
+
+        const spawnRate =
+    Math.max(75, 110 - score * 2);
+
+if (frameCount >= spawnRate) {
+
+    createBlock();
+
+    frameCount = 0;
+
+}
+
+        // Move blocks
+
+    const speed =
+        Math.min(3.5 + score * 0.1, 7);
+
+        for (let i = blocks.length - 1; i >= 0; i--) {
+
+            const block = blocks[i];
+
+            block.x -= speed * deltaTime;
+
+            // Score
+
+            if (
+                !block.passed &&
+                block.x + block.width < bird.x
+            ) {
+
+                block.passed = true;
+
+score++;
+
+document.getElementById(
+    "gameScore"
+).textContent =
+    "Score: " + score;
+
+if (score > highScore) {
+
+    highScore = score;
+
+    localStorage.setItem(
+        "blockyBirdHighScore",
+        highScore
+    );
+
+    document.getElementById(
+        "gameHighScore"
+    ).textContent =
+        "High Score: " + highScore;
+
+}
+            }
+
+            // Collision
+
+            if (checkCollision(block)) {
+
+                endGame();
+
+            }
+
+            // Remove old blocks
+
+            if (block.x + block.width < 0) {
+
+                blocks.splice(i, 1);
+
+            }
+
+        }
+
+        // Top / bottom collision
+
+        if (
+            bird.y < 0 ||
+            bird.y + bird.height >
+            gameHeight - 35
+        ) {
+
+            endGame();
+
+        }
+
+    }
+
+    function drawGame() {
+
+        drawBackground();
+
+        for (const block of blocks) {
+
+            // Top block
+
+            drawBlock(
+                block.x,
+                0,
+                block.width,
+                block.top
+            );
+
+            // Bottom block
+
+            drawBlock(
+                block.x,
+                block.top + block.gap,
+                block.width,
+                gameHeight -
+                (block.top + block.gap)
+            );
+
+        }
+
+        drawBird();
+
+    }
+
+let lastTime = 0;
+
+function gameLoop(currentTime) {
+
+    if (!gameRunning) {
+
+        drawGame();
+
+        return;
+
+    }
+
+    if (!lastTime) {
+        lastTime = currentTime;
+    }
+
+    const deltaTime = Math.min(
+        (currentTime - lastTime) / 16.67,
+        2
+    );
+
+    lastTime = currentTime;
+
+    updateGame(deltaTime);
+
+    drawGame();
+
+    requestAnimationFrame(gameLoop);
+
+}
+
+    // Controls
+
+    document
+        .getElementById("gameContainer")
+        .addEventListener(
+            "click",
+            function(event) {
+
+                if (
+                    event.target.tagName !==
+                    "BUTTON"
+                ) {
+
+                    jumpBird();
+
+                }
+
+            }
+        );
+
+    document.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.code === "Space"
+            ) {
+
+                event.preventDefault();
+
+                jumpBird();
+
+            }
+
+        }
+    );
+
+    document
+        .getElementById("gameContainer")
+        .addEventListener(
+            "touchstart",
+            function(event) {
+
+                event.preventDefault();
+
+                jumpBird();
+
+            },
+            { passive: false }
+        );
+
+document.getElementById("restartGameButton").addEventListener(
+    "click",
+    function(event) {
+
+        event.stopPropagation();
+
+        resetGame();
+
+    }
+);
+
+    // Initial screen
+
+    bird = {
+        x: 150,
+        y: 220,
+        width: 32,
+        height: 32,
+        velocity: 0
+    };
+
+    blocks = [];
+
+    score = 0;
+
+    gameRunning = false;
+
+    gameStarted = false;
+
+    drawGame();
+
+}
+    
+</script> 
+</body> 
+</html>
