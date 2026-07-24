@@ -394,6 +394,8 @@ document.getElementById("gameHighScore").textContent =
 
     function resetGame() {
 
+        lastTime = 0;
+
         bird = {
             x: 150,
             y: 220,
@@ -667,30 +669,33 @@ document.getElementById("gameOver").style.display =
 
     }
 
-    function updateGame() {
+function updateGame(deltaTime) {
 
         if (!gameRunning) {
             return;
         }
 
-        frameCount++;
+        frameCount += deltaTime;
+
 
         // Gravity
 
-        bird.velocity += 0.4;
+bird.velocity += 0.15 * deltaTime;
 
-        bird.y += bird.velocity;
+bird.y += bird.velocity * deltaTime;
 
         // Spawn blocks
 
         const spawnRate =
-            Math.max(75, 110 - score * 2);
+    Math.max(75, 110 - score * 2);
 
-        if (frameCount % spawnRate === 0) {
+if (frameCount >= spawnRate) {
 
-            createBlock();
+    createBlock();
 
-        }
+    frameCount = 0;
+
+}
 
         // Move blocks
 
@@ -701,7 +706,7 @@ document.getElementById("gameOver").style.display =
 
             const block = blocks[i];
 
-            block.x -= speed;
+            block.x -= speed * deltaTime;
 
             // Score
 
@@ -799,23 +804,36 @@ if (score > highScore) {
 
     }
 
-    function gameLoop() {
+let lastTime = 0;
 
-        if (!gameRunning) {
+function gameLoop(currentTime) {
 
-            drawGame();
-
-            return;
-
-        }
-
-        updateGame();
+    if (!gameRunning) {
 
         drawGame();
 
-        requestAnimationFrame(gameLoop);
+        return;
 
     }
+
+    if (!lastTime) {
+        lastTime = currentTime;
+    }
+
+    const deltaTime = Math.min(
+        (currentTime - lastTime) / 16.67,
+        2
+    );
+
+    lastTime = currentTime;
+
+    updateGame(deltaTime);
+
+    drawGame();
+
+    requestAnimationFrame(gameLoop);
+
+}
 
     // Controls
 
