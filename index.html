@@ -277,9 +277,9 @@ footer{ margin:60px 0 30px; color:#aaa; }
 
             <p id="finalScore">Score: 0</p>
 
-            <button onclick="restartBlockyBird()">
-                Play Again
-            </button>
+<button type="button" id="restartGameButton">
+    Play Again
+</button>
 
         </div>
 
@@ -412,7 +412,7 @@ if (gameCanvas) {
             return;
         }
 
-        bird.velocity = -1.5;
+        bird.velocity = -0.1;
     }
 
     function createBlock() {
@@ -657,7 +657,7 @@ if (gameCanvas) {
 
         // Gravity
 
-        bird.velocity += 0.10;
+        bird.velocity += 0.01;
 
         bird.y += bird.velocity;
 
@@ -833,12 +833,16 @@ if (gameCanvas) {
             { passive: false }
         );
 
-    window.restartBlockyBird =
-        function() {
+document.getElementById("restartGameButton").addEventListener(
+    "click",
+    function(event) {
 
-            resetGame();
+        event.stopPropagation();
 
-        };
+        resetGame();
+
+    }
+);
 
     // Initial screen
 
