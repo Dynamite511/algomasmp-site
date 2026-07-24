@@ -8,13 +8,13 @@
 *{ margin:0; padding:0; box-sizing:border-box; font-family:Arial, Helvetica, sans-serif; } 
 body{ background:#111; color:white; text-align:center; } 
 
-/* SLIDESHOW HERO BANNER SYSTEM */
+/* AUTOMATED RANDOM SLIDESHOW SYSTEM */
 .hero{ 
-    height: 320px; /* Locked height to prevent shift layouts */
+    height: 320px; 
     position:relative; 
     overflow: hidden;
 } 
-/* Base layer for all sliding images */
+/* Twin background panels that handle the crossfade swap */
 .hero-bg {
     position: absolute;
     inset: 0;
@@ -22,37 +22,23 @@ body{ background:#111; color:white; text-align:center; }
     background-size: cover;
     opacity: 0;
     z-index: 1;
-    animation: imageFadeLoop 16s infinite ease-in-out; /* 4 images x 4 seconds each = 16 seconds */
+    transition: opacity 1.5s ease-in-out; /* Smooth 1.5-second crossfade transition */
 }
-/* Staggering the start animations for each individual background image */
-.hero-bg:nth-child(1) { 
-    background-image: url("screenshot1.png"); 
-    animation-delay: 0s;
-}
-.hero-bg:nth-child(2) { 
-    background-image: url("Screenshot 2026-07-15 164057.png"); 
-    animation-delay: 4s;
-}
-.hero-bg:nth-child(3) { 
-    background-image: url("screenshot2.png"); 
-    animation-delay: 8s;
-}
-.hero-bg:nth-child(4) { 
-    background-image: url("screenshot3.png"); 
-    animation-delay: 12s;
+.hero-bg.active {
+    opacity: 1;
 }
 
-/* The dark shading overlay that sits over the images to keep text readable */
+/* Dark layout masking overlay to maintain text readability */
 .hero::before{ 
     content:""; 
     position:absolute; 
     inset:0; 
     background:rgba(0,0,0,.65); 
-    z-index: 2; /* Sits directly in front of the moving slideshow images */
+    z-index: 2; 
 } 
 .hero-content{ 
     position:relative; 
-    z-index: 3; /* Sits right at the front layer over the shading */
+    z-index: 3; 
     padding-top: 100px;
 } 
 h1{ font-size:60px; margin-bottom:10px; } 
@@ -72,36 +58,24 @@ button:hover{ background:#28b463; }
 .images img{ width:100%; border-radius:12px; } 
 footer{ margin:60px 0 30px; color:#aaa; } 
 
-/* Custom styles for your scrollable news section */ 
+/* Custom styles for your scrollable boxes */ 
 .news-scroll-box { max-height: 150px; overflow-y: auto; text-align: left; padding-right: 5px; line-height: 1.5; font-size: 15px; color: #ddd; } 
 .news-scroll-box::-webkit-scrollbar { width: 6px; } 
 .news-scroll-box::-webkit-scrollbar-track { background: #111; border-radius: 10px; } 
 .news-scroll-box::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; } 
 
-/* Scrollbar styles for the join instructions box */
-.join-scroll-box::-webkit-scrollbar { width: 6px; }
-.join-scroll-box::-webkit-scrollbar-track { background: #111; border-radius: 10px; }
-.join-scroll-box::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
-
-/* TIMED TIMELINE KEYFRAMES FOR THE SLIDESHOW */
-@keyframes imageFadeLoop {
-    0% { opacity: 0; }
-    6% { opacity: 1; }    /* Fades completely in */
-    25% { opacity: 1; }   /* Stays visible for its duration */
-    31% { opacity: 0; }   /* Fades smoothly out as the next one appears */
-    100% { opacity: 0; }
-}
+.join-scroll-box::-webkit-scrollbar { width: 6px; } 
+.join-scroll-box::-webkit-scrollbar-track { background: #111; border-radius: 10px; } 
+.join-scroll-box::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; } 
 </style> 
 </head> 
 <link rel="icon" type="image/png" href="logo.png"> 
 <body> 
 
-<!-- Updated structure holding individual stacked background assets -->
-<section class="hero"> 
-  <div class="hero-bg"></div>
-  <div class="hero-bg"></div>
-  <div class="hero-bg"></div>
-  <div class="hero-bg"></div>
+<!-- Two background layers used by JavaScript to create transitions -->
+<section class="hero" id="heroSection"> 
+  <div class="hero-bg active" id="bg1"></div>
+  <div class="hero-bg" id="bg2"></div>
   
   <div class="hero-content"> 
     <h1>ALGOMA SMP</h1> 
@@ -178,9 +152,10 @@ footer{ margin:60px 0 30px; color:#aaa; }
 
 </div> 
 
+<!-- Image Gallery Container -->
 <section class="gallery"> 
 <h2>Server Screenshots</h2> 
-<div class="images"> 
+<div class="images" id="galleryGrid"> 
 <img src="screenshot1.png" alt="Website AlgomaSMP"> 
 <img src="Screenshot 2026-07-15 164057.png" alt="Website AlgomaSMP"> 
 <img src="screenshot2.png" alt="Website AlgomaSMP"> 
@@ -210,6 +185,43 @@ footer{ margin:60px 0 30px; color:#aaa; }
 <script> 
 function copyJava(){ navigator.clipboard.writeText("play.algomasmp.net"); alert("Java IP copied!"); } 
 function copyBedrock(){ navigator.clipboard.writeText("ip:play.algomasmp.net port:25582"); alert("Bedrock IP copied!"); } 
-</script> 
-</body> 
-</html>
+
+// BACKGROUND SLIDESHOW ENGINE
+document.addEventListener("DOMContentLoaded", function() {
+    // 1. Scan your gallery folder list automatically to gather all paths
+    const galleryImages = document.querySelectorAll("#galleryGrid img");
+    const imageUrls = Array.from(galleryImages).map(img => img.getAttribute("src"));
+    
+    let currentIndex = 0;
+    let activeBg = document.getElementById("bg1");
+    let inactiveBg = document.getElementById("bg2");
+
+    // 2. Shuffle algorithm to randomize the array order on page reload
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+    shuffleArray(imageUrls);
+
+    // Set the very first starting random picture asset
+    activeBg.style.backgroundImage = `url("${imageUrls[0]}")`;
+
+    // 3. Loop runner function
+    function changeBackground() {
+        currentIndex = (currentIndex + 1) % imageUrls.length;
+        
+        // Feed the next random file path onto the invisible window container
+        inactiveBg.style.backgroundImage = `url("${imageUrls[currentIndex]}")`;
+        
+        // Execute crossfade swap toggles
+        inactiveBg.classList.add("active");
+        activeBg.classList.remove("active");
+        
+        // Invert the layout tracker elements
+        let temp = activeBg;
+        activeBg = inactiveBg;
+        inactiveBg = temp;
+    }
+
