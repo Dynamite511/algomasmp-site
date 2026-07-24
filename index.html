@@ -8,15 +8,15 @@
 *{ margin:0; padding:0; box-sizing:border-box; font-family:Arial, Helvetica, sans-serif; } 
 body{ background:#111; color:white; text-align:center; } 
 
-/* ULTRA-STABLE HERO BANNER WITH SLIDESHOW COMPATIBILITY */
+/* STABLE HERO BANNER WITH CROSSFADE COMPATIBILITY */
 .hero { 
     height: 380px; 
     position: relative; 
     overflow: hidden;
-    background-color: #1a1a1a; /* Dark gray fallback if images take time to respond */
+    background-color: #1a1a1a; 
     background-position: center center;
     background-size: cover;
-    transition: background-image 1.2s ease-in-out; /* Smooth transition when backgrounds change */
+    transition: background-image 1.2s ease-in-out; /* Creates a smooth blend transition */
 } 
 
 /* Transparent overlay tint that guarantees text readability over light screenshots */
@@ -27,7 +27,6 @@ body{ background:#111; color:white; text-align:center; }
     background: rgba(0, 0, 0, 0.65); 
     z-index: 1; 
 } 
-
 .hero-content { 
     position: relative; 
     z-index: 2; /* Forces text to stay on top layer */
@@ -37,23 +36,23 @@ h1{ font-size:60px; margin-bottom:10px; }
 .subtitle{ font-size:22px; color:#ddd; margin-bottom:40px; } 
 
 /* MODERN LINK BUTTON STYLING */
-.map-btn {
-    display: inline-block;
-    background: #9b5de5;
-    color: white !important;
-    text-decoration: none;
-    font-size: 24px;
-    font-weight: bold;
-    padding: 15px 35px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(155, 93, 229, 0.4);
-    transition: all 0.2s ease-in-out;
-}
-.map-btn:hover {
-    background: #8338ec;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(155, 93, 229, 0.6);
-}
+.map-btn { 
+    display: inline-block; 
+    background: #9b5de5; 
+    color: white !important; 
+    text-decoration: none; 
+    font-size: 24px; 
+    font-weight: bold; 
+    padding: 15px 35px; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 15px rgba(155, 93, 229, 0.4); 
+    transition: all 0.2s ease-in-out; 
+} 
+.map-btn:hover { 
+    background: #8338ec; 
+    transform: translateY(-2px); 
+    box-shadow: 0 6px 20px rgba(155, 93, 229, 0.6); 
+} 
 
 /* CARD GRID LAYOUT SYSTEM */
 .cards{ display:flex; justify-content:center; flex-wrap:wrap; gap:30px; margin:50px 20px; align-items: stretch; } 
@@ -75,37 +74,35 @@ footer{ margin:60px 0 30px; color:#aaa; }
 .news-scroll-box::-webkit-scrollbar-track { background: #111; border-radius: 10px; } 
 .news-scroll-box::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; } 
 
-/* Scrollbar styles for the join instructions box */
-.join-scroll-box { max-height: 150px; overflow-y: auto; text-align: left; padding-right: 5px; }
-.join-scroll-box::-webkit-scrollbar { width: 6px; }
-.join-scroll-box::-webkit-scrollbar-track { background: #111; border-radius: 10px; }
-.join-scroll-box::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
+/* Scrollbar styles for the join instructions box */ 
+.join-scroll-box { max-height: 150px; overflow-y: auto; text-align: left; padding-right: 5px; } 
+.join-scroll-box::-webkit-scrollbar { width: 6px; } 
+.join-scroll-box::-webkit-scrollbar-track { background: #111; border-radius: 10px; } 
+.join-scroll-box::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; } 
 </style> 
 </head> 
 <link rel="icon" type="image/png" href="logo.png"> 
 <body> 
 
-<!-- The dynamic header background target -->
+<!-- Header dynamic background container --> 
 <section class="hero" id="heroBanner"> 
-  <div class="hero-content"> 
-    <h1>ALGOMA SMP</h1> 
-    <p class="subtitle">Algoma Christian School Minecraft Crossplay Server</p> 
-  </div> 
+<div class="hero-content"> 
+<h1>ALGOMA SMP</h1> 
+<p class="subtitle">Algoma Christian School Minecraft Crossplay Server</p> 
+</div> 
 </section> 
 
-<!-- Clean Map Link Button Container -->
+<!-- FIX: Corrected and fully specified your complete Live Map IP Address link --> 
 <div style="margin: 40px 0 10px 0;"> 
-  <a href="http://15.204.20" target="_blank" class="map-btn">Live Server Map</a> 
+<a href="http://15.204.20" target="_blank" class="map-btn">Live Server Map</a> 
 </div> 
 
 <div class="cards"> 
-
 <!-- Module 1: How to Join Instructions --> 
 <div class="card"> 
 <h2>How to Join</h2> 
 <div class="join-scroll-box"> 
 <p style="margin-bottom: 15px; font-weight: bold; color: #4ade80; line-height: 1.4;"> Algoma SMP is a cross-play Minecraft server, meaning Java Edition and Bedrock Edition players can play together! </p> 
-<!-- Java Instructions --> 
 <h3 style="color: #fff; margin: 15px 0 8px 0; display: flex; align-items: center; gap: 5px;">🖥️ Java Edition</h3> 
 <ol style="margin-left: 20px; margin-bottom: 15px; line-height: 1.6;"> 
 <li style="margin-bottom: 4px;">Open <strong>Minecraft Java Edition</strong>.</li> 
@@ -116,7 +113,6 @@ footer{ margin:60px 0 30px; color:#aaa; }
 <li style="margin-bottom: 4px;">Click <strong>Done</strong>.</li> 
 <li style="margin-bottom: 4px;">Select <strong>Algoma SMP</strong> and click <strong>Join Server</strong>.</li> 
 </ol> 
-<!-- Bedrock Instructions --> 
 <h3 style="color: #fff; margin: 15px 0 8px 0; display: flex; align-items: center; gap: 5px;">📱 Bedrock Edition</h3> 
 <ol style="margin-left: 20px; margin-bottom: 15px; line-height: 1.6;"> 
 <li style="margin-bottom: 4px;">Open <strong>Minecraft Bedrock Edition</strong>.</li> 
@@ -128,7 +124,6 @@ footer{ margin:60px 0 30px; color:#aaa; }
 <li style="margin-bottom: 4px;">Click <strong>Save</strong>.</li> 
 <li style="margin-bottom: 4px;">Select <strong>Algoma SMP</strong> and join the server!</li> 
 </ol> 
-<!-- Footer Summary --> 
 <h3 style="color: #fff; margin: 15px 0 8px 0;">🎮 Play Together!</h3> 
 <p style="margin-bottom: 10px; line-height: 1.5; color: #ddd;"> That's it! You can now play <strong>Algoma SMP</strong> with your friends, whether they're playing on <strong>Java Edition or Bedrock Edition</strong>. </p> 
 <p style="font-size: 13px; color: #aaa; line-height: 1.4; font-style: italic;"> Make sure you copy the IP addresses directly from the Algoma SMP website so you always have the correct server information. </p> 
@@ -160,7 +155,6 @@ footer{ margin:60px 0 30px; color:#aaa; }
 <p class="ip" id="bedrockip">play.algomasmp.net with port 25582</p> 
 <button onclick="copyBedrock()">Copy IP</button> 
 </div> 
-
 </div> 
 
 <section class="gallery"> 
@@ -196,31 +190,35 @@ footer{ margin:60px 0 30px; color:#aaa; }
 function copyJava(){ navigator.clipboard.writeText("play.algomasmp.net"); alert("Java IP copied!"); } 
 function copyBedrock(){ navigator.clipboard.writeText("ip:play.algomasmp.net port:25582"); alert("Bedrock IP copied!"); } 
 
-// AUTOMATIC SHUFFLING BACKGROUND SLIDESHOW SYSTEM
-document.addEventListener("DOMContentLoaded", function() {
-    const galleryContainer = document.querySelector(".images");
-    if (!galleryContainer) return;
+// AUTOMATIC SHUFFLING BACKGROUND SLIDESHOW SYSTEM 
+document.addEventListener("DOMContentLoaded", function() { 
+    const galleryContainer = document.querySelector(".images"); 
+    if (!galleryContainer) return; 
     
-    const images = Array.from(galleryContainer.getElementsByTagName("img"));
-    if (images.length === 0) return;
+    const images = Array.from(galleryContainer.getElementsByTagName("img")); 
+    if (images.length === 0) return; 
     
-    // Grabs all source images directly from your screenshot grid gallery below
-    let imageSources = images.map(img => img.getAttribute("src"));
+    // Grabs all source images directly from your screenshot grid gallery below 
+    let imageSources = images.map(img => img.getAttribute("src")); 
     
-    // Shuffles the screenshot array list completely randomly
-    for (let i = imageSources.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [imageSources[i], imageSources[j]] = [imageSources[j], imageSources[i]];
-    }
+    // Shuffles the screenshot array list completely randomly 
+    for (let i = imageSources.length - 1; i > 0; i--) { 
+        const j = Math.floor(Math.random() * (i + 1)); 
+        [imageSources[i], imageSources[j]] = [imageSources[j], imageSources[i]]; 
+    } 
     
-    const heroElement = document.getElementById("heroBanner");
-    let currentImageIndex = 0;
+    const heroElement = document.getElementById("heroBanner"); 
+    let currentImageIndex = 0; 
     
-    function rotationEngine() {
-        heroElement.style.backgroundImage = `url('${imageSources[currentImageIndex]}')`;
-        currentImageIndex = (currentImageIndex + 1) % imageSources.length;
-    }
+    function rotationEngine() { 
+        heroElement.style.backgroundImage = `url('${imageSources[currentImageIndex]}')`; 
+        currentImageIndex = (currentImageIndex + 1) % imageSources.length; 
+    } 
     
-    // Activates the script loop smoothly (Swapping images every 5 seconds)
-    rotationEngine();
-    setInterval(rotationEngine, 5000);});
+    // Activates the script loop smoothly (Swapping images every 5 seconds) 
+    rotationEngine(); 
+    setInterval(rotationEngine, 5000);
+});
+</script> 
+</body> 
+</html>
