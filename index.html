@@ -430,7 +430,7 @@ document.getElementById("gameHighScore").textContent =
             return;
         }
 
-        bird.velocity = -2;
+        bird.velocity = -4;
     }
 
     function createBlock() {
@@ -677,7 +677,7 @@ document.getElementById("gameOver").style.display =
 
         // Gravity
 
-        bird.velocity += 0.03;
+        bird.velocity += 0.4;
 
         bird.y += bird.velocity;
 
