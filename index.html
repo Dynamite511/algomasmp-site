@@ -392,9 +392,19 @@ if (gameCanvas) {
 document.getElementById("gameHighScore").textContent =
     "High Score: " + highScore;
 
-    function resetGame() {
+function resetGame() {
 
-        lastTime = 0;
+    // Reset the timer
+    lastTime = 0;
+
+    // Prevent multiple game loops
+    if (animationFrameId !== null) {
+
+        cancelAnimationFrame(animationFrameId);
+
+        animationFrameId = null;
+
+    }
 
         bird = {
             x: 150,
@@ -671,107 +681,106 @@ document.getElementById("gameOver").style.display =
 
 function updateGame(deltaTime) {
 
-        if (!gameRunning) {
-            return;
-        }
+    if (!gameRunning) {
+        return;
+    }
 
-        frameCount += deltaTime;
+    // Gravity
+    bird.velocity += 0.15 * deltaTime;
 
+    // Move bird
+    bird.y += bird.velocity * deltaTime;
 
-        // Gravity
+    // Spawn blocks using time instead of frames
+    frameCount += deltaTime;
 
-bird.velocity += 0.15 * deltaTime;
+    const spawnRate =
+        Math.max(75, 110 - score * 2);
 
-bird.y += bird.velocity * deltaTime;
+    if (frameCount >= spawnRate) {
 
-        // Spawn blocks
+        createBlock();
 
-        const spawnRate =
-    Math.max(75, 110 - score * 2);
+        frameCount = 0;
 
-if (frameCount >= spawnRate) {
+    }
 
-    createBlock();
-
-    frameCount = 0;
-
-}
-
-        // Move blocks
-
+    // Move blocks
     const speed =
         Math.min(3.5 + score * 0.1, 7);
 
-        for (let i = blocks.length - 1; i >= 0; i--) {
+    for (let i = blocks.length - 1; i >= 0; i--) {
 
-            const block = blocks[i];
+        const block = blocks[i];
 
-            block.x -= speed * deltaTime;
+        block.x -= speed * deltaTime;
 
-            // Score
+        // Score
+        if (
+            !block.passed &&
+            block.x + block.width < bird.x
+        ) {
 
-            if (
-                !block.passed &&
-                block.x + block.width < bird.x
-            ) {
+            block.passed = true;
 
-                block.passed = true;
+            score++;
 
-score++;
+            document.getElementById(
+                "gameScore"
+            ).textContent =
+                "Score: " + score;
 
-document.getElementById(
-    "gameScore"
-).textContent =
-    "Score: " + score;
+            // High score
+            if (score > highScore) {
 
-if (score > highScore) {
+                highScore = score;
 
-    highScore = score;
+                localStorage.setItem(
+                    "blockyBirdHighScore",
+                    highScore
+                );
 
-    localStorage.setItem(
-        "blockyBirdHighScore",
-        highScore
-    );
-
-    document.getElementById(
-        "gameHighScore"
-    ).textContent =
-        "High Score: " + highScore;
-
-}
-            }
-
-            // Collision
-
-            if (checkCollision(block)) {
-
-                endGame();
-
-            }
-
-            // Remove old blocks
-
-            if (block.x + block.width < 0) {
-
-                blocks.splice(i, 1);
+                document.getElementById(
+                    "gameHighScore"
+                ).textContent =
+                    "High Score: " + highScore;
 
             }
 
         }
 
-        // Top / bottom collision
-
-        if (
-            bird.y < 0 ||
-            bird.y + bird.height >
-            gameHeight - 35
-        ) {
+        // Collision
+        if (checkCollision(block)) {
 
             endGame();
+
+            return;
+
+        }
+
+        // Remove old blocks
+        if (block.x + block.width < 0) {
+
+            blocks.splice(i, 1);
 
         }
 
     }
+
+    // Top / bottom collision
+    if (
+        bird.y < 0 ||
+        bird.y + bird.height >
+        gameHeight - 35
+    ) {
+
+        endGame();
+
+        return;
+
+    }
+
+}
 
     function drawGame() {
 
@@ -806,11 +815,16 @@ if (score > highScore) {
 
 let lastTime = 0;
 
+let lastTime = 0;
+let animationFrameId = null;
+
 function gameLoop(currentTime) {
 
     if (!gameRunning) {
 
         drawGame();
+
+        animationFrameId = null;
 
         return;
 
@@ -820,10 +834,13 @@ function gameLoop(currentTime) {
         lastTime = currentTime;
     }
 
-    const deltaTime = Math.min(
-        (currentTime - lastTime) / 16.67,
-        2
-    );
+    // Convert milliseconds to roughly 60 FPS units
+    let deltaTime =
+        (currentTime - lastTime) / 16.67;
+
+    // Prevent huge jumps if the browser pauses
+    deltaTime =
+        Math.min(deltaTime, 2);
 
     lastTime = currentTime;
 
@@ -831,10 +848,10 @@ function gameLoop(currentTime) {
 
     drawGame();
 
-    requestAnimationFrame(gameLoop);
+    animationFrameId =
+        requestAnimationFrame(gameLoop);
 
 }
-
     // Controls
 
     document
