@@ -24,25 +24,21 @@ button:hover{ background:#28b463; }
 .images img{ width:100%; border-radius:12px; } 
 footer{ margin:60px 0 30px; color:#aaa; } 
 
-/* Custom styles for your scrollable news section */
-.news-scroll-box {
-    max-height: 150px;
-    overflow-y: auto;
-    text-align: left;
-    padding-right: 5px;
-    line-height: 1.5;
-    font-size: 15px;
-    color: #ddd;
-}
-/* Makes the scrollbar track look sleek and dark */
-.news-scroll-box::-webkit-scrollbar { width: 6px; }
-.news-scroll-box::-webkit-scrollbar-track { background: #111; border-radius: 10px; }
-.news-scroll-box::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
+/* Custom styles for your scrollable news section */ 
+.news-scroll-box { max-height: 150px; overflow-y: auto; text-align: left; padding-right: 5px; line-height: 1.5; font-size: 15px; color: #ddd; } 
+/* Makes the scrollbar track look sleek and dark */ 
+.news-scroll-box::-webkit-scrollbar { width: 6px; } 
+.news-scroll-box::-webkit-scrollbar-track { background: #111; border-radius: 10px; } 
+.news-scroll-box::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; } 
+
+/* Scrollbar styles for the join instructions box */
+.join-scroll-box::-webkit-scrollbar { width: 6px; }
+.join-scroll-box::-webkit-scrollbar-track { background: #111; border-radius: 10px; }
+.join-scroll-box::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
 </style> 
 </head> 
 <link rel="icon" type="image/png" href="logo.png"> 
 <body> 
-
 <section class="hero"> 
 <div class="hero-content"> 
 <h1>ALGOMA SMP</h1> 
@@ -50,84 +46,75 @@ footer{ margin:60px 0 30px; color:#aaa; }
 </div> 
 </section> 
 
-<div style="margin: 40px 0 10px 0;">
-  <a href="http://15.204.20.247:8170/" target="_blank" style="font-size: 300%; color: #9b5de5; text-decoration: none; font-weight: bold;">Live Server Map</a> 
-</div>
-
-<!-- All your main info modules sit grouped neatly together here -->
-<div class="card"> 
-  <h2>How to Join</h2> 
-  <div class="join-scroll-box" style="text-align: left; padding: 10px; max-height: 250px; overflow-y: auto;"> 
-    
-    <p style="margin-bottom: 15px; font-weight: bold; color: #4ade80; line-height: 1.4;">
-      Algoma SMP is a cross-play Minecraft server, meaning Java Edition and Bedrock Edition players can play together!
-    </p>
-
-    <!-- Java Instructions -->
-    <h3 style="color: #fff; margin: 15px 0 8px 0; display: flex; align-items: center; gap: 5px;">🖥️ Java Edition</h3>
-    <ol style="margin-left: 20px; margin-bottom: 15px; line-height: 1.6;">
-      <li style="margin-bottom: 4px;">Open <strong>Minecraft Java Edition</strong>.</li>
-      <li style="margin-bottom: 4px;">Click <strong>Multiplayer</strong>.</li>
-      <li style="margin-bottom: 4px;">Click <strong>Add Server</strong>.</li>
-      <li style="margin-bottom: 4px;">Go to the <strong>Algoma SMP website</strong> and copy the <strong>Java IP address</strong>.</li>
-      <li style="margin-bottom: 4px;">Paste the IP into the <strong>Server Address</strong> box.</li>
-      <li style="margin-bottom: 4px;">Click <strong>Done</strong>.</li>
-      <li style="margin-bottom: 4px;">Select <strong>Algoma SMP</strong> and click <strong>Join Server</strong>.</li>
-    </ol>
-
-    <!-- Bedrock Instructions -->
-    <h3 style="color: #fff; margin: 15px 0 8px 0; display: flex; align-items: center; gap: 5px;">📱 Bedrock Edition</h3>
-    <ol style="margin-left: 20px; margin-bottom: 15px; line-height: 1.6;">
-      <li style="margin-bottom: 4px;">Open <strong>Minecraft Bedrock Edition</strong>.</li>
-      <li style="margin-bottom: 4px;">Click <strong>Play</strong>.</li>
-      <li style="margin-bottom: 4px;">Go to the <strong>Servers</strong> tab.</li>
-      <li style="margin-bottom: 4px;">Select <strong>Add Server</strong>.</li>
-      <li style="margin-bottom: 4px;">Go to the <strong>Algoma SMP website</strong> and copy the <strong>Bedrock IP address</strong> and <strong>Port</strong>.</li>
-      <li style="margin-bottom: 4px;">Paste them into the corresponding fields.</li>
-      <li style="margin-bottom: 4px;">Click <strong>Save</strong>.</li>
-      <li style="margin-bottom: 4px;">Select <strong>Algoma SMP</strong> and join the server!</li>
-    </ol>
-
-    <!-- Footer Summary -->
-    <h3 style="color: #fff; margin: 15px 0 8px 0;">🎮 Play Together!</h3>
-    <p style="margin-bottom: 10px; line-height: 1.5; color: #ddd;">
-      That's it! You can now play <strong>Algoma SMP</strong> with your friends, whether they're playing on <strong>Java Edition or Bedrock Edition</strong>.
-    </p>
-    <p style="font-size: 13px; color: #aaa; line-height: 1.4; font-style: italic;">
-      Make sure you copy the IP addresses directly from the Algoma SMP website so you always have the correct server information.
-    </p>
-
-  </div> 
-</div>
-    
-  <!-- Module 1: Scrollable News and Updates -->
-  <div class="card"> 
-    <h2>News and Updates</h2> 
-    <div class="news-scroll-box">
-      <p>Updated the server to Java 26.2.</p>
-      <p style="margin-top: 10px;">Added some new Anti-Cheat plugins.</p>
-      <p style="margin-top: 10px;">Updated to Java 26.1.2.</p>
-      <p style="margin-top: 10px;">Updated to Java 26.1.</p>
-      <p style="margin-top: 10px;">Updated to Java 1.21.11</p>
-      <!-- You can add more paragraph tags below here to test the scrolling functionality! -->
-    </div>
-  </div> 
-
-  <!-- Module 2: Java Information -->
-  <div class="card"> 
-    <h2>💻 Java Edition</h2> 
-    <p class="ip" id="javaip">play.algomasmp.net</p> 
-    <button onclick="copyJava()">Copy IP</button> 
-  </div> 
-
-  <!-- Module 3: Bedrock Information -->
-  <div class="card"> 
-    <h2>📱 Bedrock Edition</h2> 
-    <p class="ip" id="bedrockip">play.algomasmp.net with port 25582</p> 
-    <button onclick="copyBedrock()">Copy IP</button> 
-  </div> 
-
+<div style="margin: 40px 0 10px 0;"> 
+<a href="http://15.204.20.247:8170/" target="_blank" style="font-size: 300%; color: #9b5de5; text-decoration: none; font-weight: bold;">Live Server Map</a> 
 </div> 
+
+<!-- FIX: Added back the missing flex wrapper tag container here --> 
+<div class="cards"> 
+
+<!-- Module: How to Join Instructions --> 
+<div class="card"> 
+<h2>How to Join</h2> 
+<div class="join-scroll-box" style="text-align: left; padding: 10px 5px 10px 0; max-height: 150px; overflow-y: auto;"> 
+<p style="margin-bottom: 15px; font-weight: bold; color: #4ade80; line-height: 1.4;"> Algoma SMP is a cross-play Minecraft server, meaning Java Edition and Bedrock Edition players can play together! </p> 
+<!-- Java Instructions --> 
+<h3 style="color: #fff; margin: 15px 0 8px 0; display: flex; align-items: center; gap: 5px;">🖥️ Java Edition</h3> 
+<ol style="margin-left: 20px; margin-bottom: 15px; line-height: 1.6;"> 
+<li style="margin-bottom: 4px;">Open <strong>Minecraft Java Edition</strong>.</li> 
+<li style="margin-bottom: 4px;">Click <strong>Multiplayer</strong>.</li> 
+<li style="margin-bottom: 4px;">Click <strong>Add Server</strong>.</li> 
+<li style="margin-bottom: 4px;">Go to the <strong>Algoma SMP website</strong> and copy the <strong>Java IP address</strong>.</li> 
+<li style="margin-bottom: 4px;">Paste the IP into the <strong>Server Address</strong> box.</li> 
+<li style="margin-bottom: 4px;">Click <strong>Done</strong>.</li> 
+<li style="margin-bottom: 4px;">Select <strong>Algoma SMP</strong> and click <strong>Join Server</strong>.</li> 
+</ol> 
+<!-- Bedrock Instructions --> 
+<h3 style="color: #fff; margin: 15px 0 8px 0; display: flex; align-items: center; gap: 5px;">📱 Bedrock Edition</h3> 
+<ol style="margin-left: 20px; margin-bottom: 15px; line-height: 1.6;"> 
+<li style="margin-bottom: 4px;">Open <strong>Minecraft Bedrock Edition</strong>.</li> 
+<li style="margin-bottom: 4px;">Click <strong>Play</strong>.</li> 
+<li style="margin-bottom: 4px;">Go to the <strong>Servers</strong> tab.</li> 
+<li style="margin-bottom: 4px;">Select <strong>Add Server</strong>.</li> 
+<li style="margin-bottom: 4px;">Go to the <strong>Algoma SMP website</strong> and copy the <strong>Bedrock IP address</strong> and <strong>Port</strong>.</li> 
+<li style="margin-bottom: 4px;">Paste them into the corresponding fields.</li> 
+<li style="margin-bottom: 4px;">Click <strong>Save</strong>.</li> 
+<li style="margin-bottom: 4px;">Select <strong>Algoma SMP</strong> and join the server!</li> 
+</ol> 
+<!-- Footer Summary --> 
+<h3 style="color: #fff; margin: 15px 0 8px 0;">🎮 Play Together!</h3> 
+<p style="margin-bottom: 10px; line-height: 1.5; color: #ddd;"> That's it! You can now play <strong>Algoma SMP</strong> with your friends, whether they're playing on <strong>Java Edition or Bedrock Edition</strong>. </p> 
+<p style="font-size: 13px; color: #aaa; line-height: 1.4; font-style: italic;"> Make sure you copy the IP addresses directly from the Algoma SMP website so you always have the correct server information. </p> 
+</div> 
+</div> 
+
+<!-- Module 1: Scrollable News and Updates --> 
+<div class="card"> 
+<h2>News and Updates</h2> 
+<div class="news-scroll-box"> 
+<p>Updated the server to Java 26.2.</p> 
+<p style="margin-top: 10px;">Added some new Anti-Cheat plugins.</p> 
+<p style="margin-top: 10px;">Updated to Java 26.1.2.</p> 
+<p style="margin-top: 10px;">Updated to Java 26.1.</p> 
+<p style="margin-top: 10px;">Updated to Java 1.21.11</p> 
+</div> 
+</div> 
+
+<!-- Module 2: Java Information --> 
+<div class="card"> 
+<h2>💻 Java Edition</h2> 
+<p class="ip" id="javaip">play.algomasmp.net</p> 
+<button onclick="copyJava()">Copy IP</button> 
+</div> 
+
+<!-- Module 3: Bedrock Information --> 
+<div class="card"> 
+<h2>📱 Bedrock Edition</h2> 
+<p class="ip" id="bedrockip">play.algomasmp.net with port 25582</p> 
+<button onclick="copyBedrock()">Copy IP</button> 
+</div> 
+
+</div> <!-- This closing div now correctly closes the .cards container -->
 
 <section class="gallery"> 
 <h2>Server Screenshots</h2> 
