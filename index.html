@@ -277,6 +277,7 @@ footer{ margin:60px 0 30px; color:#aaa; }
 
         <div class="game-ui">
             <div id="gameScore">Score: 0</div>
+            <div id="gameHighScore">High Score: 0</div>
         </div>
 
 <div class="game-over" id="gameOver">
@@ -286,6 +287,7 @@ footer{ margin:60px 0 30px; color:#aaa; }
         <h3>Game Over!</h3>
 
         <p id="finalScore">Score: 0</p>
+        <p id="finalHighScore">High Score: 0</p>
 
         <button type="button" id="restartGameButton">
             Play Again
@@ -385,6 +387,10 @@ if (gameCanvas) {
     let gameRunning;
     let gameStarted;
     let frameCount;
+    let highScore = Number(localStorage.getItem("blockyBirdHighScore")) || 0;
+
+document.getElementById("gameHighScore").textContent =
+    "High Score: " + highScore;
 
     function resetGame() {
 
@@ -653,6 +659,8 @@ if (gameCanvas) {
 
         document.getElementById("finalScore").textContent =
             "Score: " + score;
+        document.getElementById("finalHighScore").textContent =
+            "High Score: " + highScore;
 
 document.getElementById("gameOver").style.display =
     "block";
@@ -704,13 +712,28 @@ document.getElementById("gameOver").style.display =
 
                 block.passed = true;
 
-                score++;
+score++;
 
-                document.getElementById(
-                    "gameScore"
-                ).textContent =
-                    "Score: " + score;
+document.getElementById(
+    "gameScore"
+).textContent =
+    "Score: " + score;
 
+if (score > highScore) {
+
+    highScore = score;
+
+    localStorage.setItem(
+        "blockyBirdHighScore",
+        highScore
+    );
+
+    document.getElementById(
+        "gameHighScore"
+    ).textContent =
+        "High Score: " + highScore;
+
+}
             }
 
             // Collision
