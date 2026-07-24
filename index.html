@@ -8,15 +8,52 @@
 *{ margin:0; padding:0; box-sizing:border-box; font-family:Arial, Helvetica, sans-serif; } 
 body{ background:#111; color:white; text-align:center; } 
 
-/* FIXED CLEAN GRADIENT HERO BANNER */
-.hero{ 
-    /* Creates a premium dark metallic gradient shift instead of flat black */
-    background: linear-gradient(180deg, #252528 0%, #111111 100%);
-    padding: 100px 20px; 
-    border-bottom: 2px solid #1d1d1d;
+/* ULTRA-STABLE HERO BANNER WITH SLIDESHOW COMPATIBILITY */
+.hero { 
+    height: 380px; 
+    position: relative; 
+    overflow: hidden;
+    background-color: #1a1a1a; /* Dark gray fallback if images take time to respond */
+    background-position: center center;
+    background-size: cover;
+    transition: background-image 1.2s ease-in-out; /* Smooth transition when backgrounds change */
 } 
-h1{ font-size:60px; margin-bottom:10px; text-shadow: 0 4px 10px rgba(0,0,0,0.5); } 
-.subtitle{ font-size:22px; color:#ddd; margin-bottom:10px; } 
+
+/* Transparent overlay tint that guarantees text readability over light screenshots */
+.hero::before { 
+    content: ""; 
+    position: absolute; 
+    inset: 0; 
+    background: rgba(0, 0, 0, 0.65); 
+    z-index: 1; 
+} 
+
+.hero-content { 
+    position: relative; 
+    z-index: 2; /* Forces text to stay on top layer */
+    padding-top: 120px;
+} 
+h1{ font-size:60px; margin-bottom:10px; } 
+.subtitle{ font-size:22px; color:#ddd; margin-bottom:40px; } 
+
+/* MODERN LINK BUTTON STYLING */
+.map-btn {
+    display: inline-block;
+    background: #9b5de5;
+    color: white !important;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 15px 35px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(155, 93, 229, 0.4);
+    transition: all 0.2s ease-in-out;
+}
+.map-btn:hover {
+    background: #8338ec;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(155, 93, 229, 0.6);
+}
 
 /* CARD GRID LAYOUT SYSTEM */
 .cards{ display:flex; justify-content:center; flex-wrap:wrap; gap:30px; margin:50px 20px; align-items: stretch; } 
@@ -39,6 +76,7 @@ footer{ margin:60px 0 30px; color:#aaa; }
 .news-scroll-box::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; } 
 
 /* Scrollbar styles for the join instructions box */
+.join-scroll-box { max-height: 150px; overflow-y: auto; text-align: left; padding-right: 5px; }
 .join-scroll-box::-webkit-scrollbar { width: 6px; }
 .join-scroll-box::-webkit-scrollbar-track { background: #111; border-radius: 10px; }
 .join-scroll-box::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
@@ -47,23 +85,25 @@ footer{ margin:60px 0 30px; color:#aaa; }
 <link rel="icon" type="image/png" href="logo.png"> 
 <body> 
 
-<!-- Fixed Header Container -->
-<section class="hero"> 
-  <h1>ALGOMA SMP</h1> 
-  <p class="subtitle">Algoma Christian School Minecraft Crossplay Server</p> 
+<!-- The dynamic header background target -->
+<section class="hero" id="heroBanner"> 
+  <div class="hero-content"> 
+    <h1>ALGOMA SMP</h1> 
+    <p class="subtitle">Algoma Christian School Minecraft Crossplay Server</p> 
+  </div> 
 </section> 
 
-<!-- FIX: Fixed the broken/cut-off Live Map IP address link here -->
+<!-- Clean Map Link Button Container -->
 <div style="margin: 40px 0 10px 0;"> 
-<a href="http://15.204.20" target="_blank" style="font-size: 300%; color: #9b5de5; text-decoration: none; font-weight: bold;">Live Server Map</a> 
+  <a href="http://15.204.20" target="_blank" class="map-btn">Live Server Map</a> 
 </div> 
 
 <div class="cards"> 
 
-<!-- Module: How to Join Instructions --> 
+<!-- Module 1: How to Join Instructions --> 
 <div class="card"> 
 <h2>How to Join</h2> 
-<div class="join-scroll-box" style="text-align: left; padding: 10px 5px 10px 0; max-height: 150px; overflow-y: auto;"> 
+<div class="join-scroll-box"> 
 <p style="margin-bottom: 15px; font-weight: bold; color: #4ade80; line-height: 1.4;"> Algoma SMP is a cross-play Minecraft server, meaning Java Edition and Bedrock Edition players can play together! </p> 
 <!-- Java Instructions --> 
 <h3 style="color: #fff; margin: 15px 0 8px 0; display: flex; align-items: center; gap: 5px;">🖥️ Java Edition</h3> 
@@ -95,7 +135,7 @@ footer{ margin:60px 0 30px; color:#aaa; }
 </div> 
 </div> 
 
-<!-- Module 1: Scrollable News and Updates --> 
+<!-- Module 2: Scrollable News and Updates --> 
 <div class="card"> 
 <h2>News and Updates</h2> 
 <div class="news-scroll-box"> 
@@ -107,14 +147,14 @@ footer{ margin:60px 0 30px; color:#aaa; }
 </div> 
 </div> 
 
-<!-- Module 2: Java Information --> 
+<!-- Module 3: Java Information --> 
 <div class="card"> 
 <h2>💻 Java Edition</h2> 
 <p class="ip" id="javaip">play.algomasmp.net</p> 
 <button onclick="copyJava()">Copy IP</button> 
 </div> 
 
-<!-- Module 3: Bedrock Information --> 
+<!-- Module 4: Bedrock Information --> 
 <div class="card"> 
 <h2>📱 Bedrock Edition</h2> 
 <p class="ip" id="bedrockip">play.algomasmp.net with port 25582</p> 
@@ -155,6 +195,31 @@ footer{ margin:60px 0 30px; color:#aaa; }
 <script> 
 function copyJava(){ navigator.clipboard.writeText("play.algomasmp.net"); alert("Java IP copied!"); } 
 function copyBedrock(){ navigator.clipboard.writeText("ip:play.algomasmp.net port:25582"); alert("Bedrock IP copied!"); } 
-</script> 
-</body> 
-</html>
+
+// AUTOMATIC SHUFFLING BACKGROUND SLIDESHOW SYSTEM
+document.addEventListener("DOMContentLoaded", function() {
+    const galleryContainer = document.querySelector(".images");
+    if (!galleryContainer) return;
+    
+    const images = Array.from(galleryContainer.getElementsByTagName("img"));
+    if (images.length === 0) return;
+    
+    // Grabs all source images directly from your screenshot grid gallery below
+    let imageSources = images.map(img => img.getAttribute("src"));
+    
+    // Shuffles the screenshot array list completely randomly
+    for (let i = imageSources.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [imageSources[i], imageSources[j]] = [imageSources[j], imageSources[i]];
+    }
+    
+    const heroElement = document.getElementById("heroBanner");
+    let currentImageIndex = 0;
+    
+    function rotationEngine() {
+        heroElement.style.backgroundImage = `url('${imageSources[currentImageIndex]}')`;
+        currentImageIndex = (currentImageIndex + 1) % imageSources.length;
+    }
+    
+    // Activates the script loop smoothly (Swapping images every 5 seconds)
+    rotationEngine();
