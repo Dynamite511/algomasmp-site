@@ -6,79 +6,366 @@
 <title>Algoma SMP</title>
 
 <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
 
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
 
-/* STABLE HERO BANNER WITH CROSSFADE COMPATIBILITY */
-.hero { 
-    height: 380px; 
-    position: relative; 
+body {
+    background: #111 !important;
+    color: white !important;
+    text-align: center;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    width: 100%;
+    height: 380px;
+    position: relative;
     overflow: hidden;
-    background-color: #1a1a1a; 
+    background-color: #1a1a1a;
     background-position: center center;
     background-size: cover;
-    transition: background-image 1.2s ease-in-out; /* Creates a smooth blend transition */
-} 
+    background-repeat: no-repeat;
+}
 
-/* Transparent overlay tint that guarantees text readability over light screenshots */
-.hero::before { 
-    content: ""; 
-    position: absolute; 
-    inset: 0; 
-    background: rgba(0, 0, 0, 0.65); 
-    z-index: 1; 
-} 
-.hero-content { 
-    position: relative; 
-    z-index: 2; /* Forces text to stay on top layer */
-    padding-top: 120px;
-} 
-h1{ font-size:60px; margin-bottom:10px; } 
-.subtitle{ font-size:22px; color:#ddd; margin-bottom:40px; } 
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 1;
+}
 
-/* MODERN LINK BUTTON STYLING */
-.map-btn { 
-    display: inline-block; 
-    background: #9b5de5; 
-    color: white !important; 
-    text-decoration: none; 
-    font-size: 24px; 
-    font-weight: bold; 
-    padding: 15px 35px; 
-    border-radius: 10px; 
-    box-shadow: 0 4px 15px rgba(155, 93, 229, 0.4); 
-    transition: all 0.2s ease-in-out; 
-} 
-.map-btn:hover { 
-    background: #8338ec; 
-    transform: translateY(-2px); 
-    box-shadow: 0 6px 20px rgba(155, 93, 229, 0.6); 
-} 
+.hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+}
 
-/* CARD GRID LAYOUT SYSTEM */
-.cards{ display:flex; justify-content:center; flex-wrap:wrap; gap:30px; margin:50px 20px; align-items: stretch; } 
-.card{ background:#1d1d1d; border-radius:15px; width:320px; padding:30px; box-shadow:0 0 20px rgba(0,0,0,.5); text-align: center; } 
-.card h2{ margin-bottom:15px; } 
-.ip{ font-size:22px; color:#4ade80; margin:15px 0; word-break:break-word; } 
-button{ background:#2ecc71; color:white; border:none; padding:12px 20px; border-radius:8px; cursor:pointer; font-size:16px; } 
-button:hover{ background:#28b463; } 
+.hero h1 {
+    color: white !important;
+    font-size: 60px;
+    margin-bottom: 10px;
+}
 
-.gallery{ max-width:1200px; margin:60px auto; padding:20px; } 
-.gallery h2{ margin-bottom:30px; } 
-.images{ display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; } 
-.images img{ width:100%; border-radius:12px; } 
-footer{ margin:60px 0 30px; color:#aaa; } 
+.subtitle {
+    color: #ddd !important;
+    font-size: 22px;
+    margin-bottom: 0;
+}
 
-/* Custom styles for your scrollable news section */ 
-.news-scroll-box { max-height: 150px; overflow-y: auto; text-align: left; padding-right: 5px; line-height: 1.5; font-size: 15px; color: #ddd; } 
-.news-scroll-box::-webkit-scrollbar { width: 6px; } 
-.news-scroll-box::-webkit-scrollbar-track { background: #111; border-radius: 10px; } 
-.news-scroll-box::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; } 
+/* =========================
+   LIVE MAP BUTTON
+========================= */
 
-/* Scrollbar styles for the join instructions box */ 
-.join-scroll-box { max-height: 150px; overflow-y: auto; text-align: left; padding-right: 5px; } 
-.join-scroll-box::-webkit-scrollbar { width: 6px; } 
-.join-scroll-box::-webkit-scrollbar-track { background: #111; border-radius: 10px; } 
-.join-scroll-box::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; } 
+.map-btn {
+    display: inline-block;
+    background: #9b5de5;
+    color: white !important;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 15px 35px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(155, 93, 229, 0.4);
+    transition: all 0.2s ease-in-out;
+}
+
+.map-btn:hover {
+    background: #8338ec;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(155, 93, 229, 0.6);
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.cards {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin: 50px auto;
+    padding: 0 20px;
+}
+
+.card {
+    background: #1d1d1d;
+    color: white;
+    border-radius: 15px;
+    width: 320px;
+    padding: 30px;
+    box-shadow: 0 0 20px rgba(0,0,0,.5);
+    text-align: center;
+}
+
+.card h2 {
+    color: white;
+    margin-bottom: 15px;
+}
+
+.card h3 {
+    color: white;
+}
+
+.card p,
+.card li {
+    color: white;
+}
+
+.ip {
+    font-size: 22px;
+    color: #4ade80 !important;
+    margin: 15px 0;
+    word-break: break-word;
+}
+
+button {
+    background: #2ecc71;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background: #28b463;
+}
+
+/* =========================
+   SCROLL BOXES
+========================= */
+
+.news-scroll-box,
+.join-scroll-box {
+    max-height: 150px;
+    overflow-y: auto;
+    text-align: left;
+    padding-right: 5px;
+}
+
+.news-scroll-box {
+    line-height: 1.5;
+    font-size: 15px;
+    color: #ddd;
+}
+
+.news-scroll-box::-webkit-scrollbar,
+.join-scroll-box::-webkit-scrollbar {
+    width: 6px;
+}
+
+.news-scroll-box::-webkit-scrollbar-track,
+.join-scroll-box::-webkit-scrollbar-track {
+    background: #111;
+    border-radius: 10px;
+}
+
+.news-scroll-box::-webkit-scrollbar-thumb,
+.join-scroll-box::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 10px;
+}
+
+/* =========================
+   GALLERY
+========================= */
+
+.gallery {
+    width: 100%;
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 20px;
+}
+
+.gallery h2 {
+    color: white;
+    margin-bottom: 30px;
+}
+
+.images {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    justify-items: center;
+    align-items: start;
+}
+
+.images img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+}
+
+/* =========================
+   GAME
+========================= */
+
+.game-section {
+    width: 100%;
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 20px;
+}
+
+.game-section h2 {
+    color: white;
+    margin-bottom: 10px;
+}
+
+.game-description {
+    color: #aaa !important;
+    margin-bottom: 20px;
+}
+
+.game-container {
+    position: relative !important;
+    width: 100%;
+    max-width: 800px;
+    height: 450px;
+    margin: auto;
+    overflow: hidden;
+    border: 5px solid #333;
+    border-radius: 12px;
+    background: #87ceeb;
+    cursor: pointer;
+    touch-action: none;
+}
+
+#gameCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.game-ui {
+    position: absolute;
+    top: 15px;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    text-shadow: 2px 2px 4px #000;
+}
+
+#gameScore {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.game-over {
+    display: none;
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: rgba(0,0,0,.65);
+    z-index: 10;
+}
+
+.game-over-content {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 300px;
+    text-align: center;
+}
+
+.game-over-content h3 {
+    color: white;
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+.game-over-content p {
+    color: white;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.game-over-content button {
+    display: inline-block !important;
+    pointer-events: auto;
+}
+
+.game-controls {
+    margin-top: 15px;
+    color: #aaa !important;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    width: 100%;
+    margin: 60px 0 30px;
+    color: #aaa !important;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 700px) {
+
+    .hero {
+        height: 300px;
+    }
+
+    .hero h1 {
+        font-size: 42px;
+    }
+
+    .subtitle {
+        font-size: 17px;
+    }
+
+    .cards {
+        padding: 0 15px;
+        gap: 20px;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .gallery {
+        padding: 15px;
+    }
+
+    .images {
+        grid-template-columns: 1fr;
+    }
+
+}
 </style> 
 </head> 
 <link rel="icon" type="image/png" href="logo.png"> 
